@@ -35,31 +35,29 @@ jobs:
       # Checks that all Terraform configuration files adhere to a canonical format
       - name: Terraform Format
         id: fmt
-        run: terraform fmt -check
+        run: terraform fmt
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         id: init
         run: terraform init
-        continue-on-error: true
+        continue-on-error: false
       
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
-        continue-on-error: true
+        run: terraform validate
+        continue-on-error: false
 
       # Generates an execution plan for Terraform
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request' || github.event_name == 'push'
-        run: terraform plan -no-color -input=false
-        continue-on-error: true
+        run: terraform plan
+        continue-on-error: false
 
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request' || github.event_name == 'push'
         env:
-          INIT: "terrafor\n${{ steps.init.outputs.stdout }}"
-          VALIDATE: "terrafor\n${{ steps.validate.outputs.stdout }}"
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -68,19 +66,7 @@ jobs:
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            
-            <details><summary>Show Init</summary>
-            \`\`\`\n
-            ${process.env.INIT}
-            \`\`\`
-            </details>
-            
-            <details><summary>Show Validate</summary>
-            \`\`\`\n
-            ${process.env.VALIDATE}
-            \`\`\`
-            </details>
-
+                        
             <details><summary>Show Plan</summary>
             \`\`\`\n
             ${process.env.PLAN}
@@ -107,4 +93,4 @@ jobs:
       # On push to main, build or change infrastructure according to Terraform configuration files
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+        run: terraform apply -auto-approve
