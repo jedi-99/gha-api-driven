@@ -1,4 +1,4 @@
-# Value of these variables are provided through Terraform Enterprise environment variables
+# Value of these variables are provided through Terraform Enterprise variables
 
 variable "project_id" {
   type = string
