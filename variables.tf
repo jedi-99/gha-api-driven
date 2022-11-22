@@ -6,6 +6,6 @@ variable "project_id" {
 
 variable "region" {
   type = string
-  description = "Default region to deploy cloud resources"
+  description = "Default region to deploy GCP resources"
   default = "europe-west3"
 }
