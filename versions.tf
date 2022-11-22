@@ -1,10 +1,10 @@
 terraform {
 
   cloud {
-    organization = var.tfe_organization
+    organization = local.tfe_organization
 
     workspaces {
-      name = var.tfe_workspace
+      name = local.tfe_workspace
     }
   }
 
