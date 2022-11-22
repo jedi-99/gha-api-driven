@@ -35,7 +35,7 @@ jobs:
       # Checks that all Terraform configuration files adhere to a canonical format
       - name: Terraform Format
         id: fmt
-        run: terraform fmt -check
+        run: terraform fmt
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
@@ -45,14 +45,14 @@ jobs:
       
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: terraform validate
         continue-on-error: true
 
       # Generates an execution plan for Terraform
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request' || github.event_name == 'push'
-        run: terraform plan -no-color -input=false
+        run: terraform plan
         continue-on-error: true
 
       - uses: actions/github-script@v6
@@ -107,4 +107,4 @@ jobs:
       # On push to main, build or change infrastructure according to Terraform configuration files
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+        run: terraform apply -auto-approve
