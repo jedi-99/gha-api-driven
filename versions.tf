@@ -1,10 +1,10 @@
 terraform {
 
   cloud {
-    organization = local.tfe_organization
+    organization = "rc-org"
 
     workspaces {
-      name = local.tfe_workspace
+      name = "gha-api-driven"
     }
   }
 
