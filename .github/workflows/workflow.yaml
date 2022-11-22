@@ -12,7 +12,7 @@ on:
 
 jobs:
   terraform:
-    name: "Terraform"
+    name: "Remote Run"
     runs-on: ubuntu-latest
     
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
@@ -58,8 +58,6 @@ jobs:
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request' || github.event_name == 'push'
         env:
-          INIT: "terrafor\n${{ steps.init.outputs.stdout }}"
-          VALIDATE: "terrafor\n${{ steps.validate.outputs.stdout }}"
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -68,19 +66,7 @@ jobs:
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            
-            <details><summary>Show Init</summary>
-            \`\`\`\n
-            ${process.env.INIT}
-            \`\`\`
-            </details>
-            
-            <details><summary>Show Validate</summary>
-            \`\`\`\n
-            ${process.env.VALIDATE}
-            \`\`\`
-            </details>
-
+                        
             <details><summary>Show Plan</summary>
             \`\`\`\n
             ${process.env.PLAN}
@@ -108,3 +94,4 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
+
