@@ -24,6 +24,15 @@ jobs:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v3
+        
+      # Configure prisma cloud
+      - name: Run Bridgecrew 
+        id: Bridgecrew
+        uses: bridgecrewio/bridgecrew-action@master 
+        env:
+          PRISMA_API_URL: https://api4.prismacloud.io
+        with:
+          api-key: ${{ secrets.BC_API_KEY }}
 
       # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
