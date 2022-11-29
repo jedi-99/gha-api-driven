@@ -1,5 +1,5 @@
 resource "google_storage_bucket" "sample_bucket" {
-   name          = "poc-sample-bucket-1991"
+   name          = "poc-gcs-prisma-policy-test"
    project       = var.project_id
    location      = var.region
    force_destroy = true
